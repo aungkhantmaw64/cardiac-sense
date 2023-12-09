@@ -2,13 +2,13 @@ services:
   jupyter:
     build:
       context: ./
-      dockerfile: jupyter.Dockerfile
-    image: jupyter:latest
+      dockerfile: ./Dockerfile
+    image: cardiac-sense-ci:latest
     container_name: jupyter
     restart: always
     tty: true
     ports:
       - 8888:8888
     volumes:
-      - ./:/home/app
-    working_dir: /home/app
+      - ./:/app
+    working_dir: /app
