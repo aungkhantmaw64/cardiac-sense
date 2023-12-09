@@ -7,3 +7,5 @@ tensorflow
 scipy
 wfdb
 dash
+neurokit2
+ts2vg
