@@ -17,21 +17,19 @@ docker container run --rm -it -v $PWD:/app -p 8888:8888 --name cardiac-sense car
 ```bash
 docker container run --rm -it -v ${pwd}:/app -p 8888:8888 --name cardiac-sense cardiac-sense-ci:latest
 ```
-### Access Jupyter Notebook
-Open the browser and enter http://127.0.0.1:8888/tree.
-
-Run ```jupyter notebook``` in the bash shell inside the container.
-Then, open the browser and enter http://127.0.0.1:8888/tree.
 
 ### Using Docker Compose
-You can do all the above operations with just one line using **docker-compose**.
+Start the container, named ``cardiac-sense`` using the following command, if you are building the docker image for the first time or the requirements*.txt has been updated.
 ```bash
-docker compose up
+docker compose up --build
 ```
+Otherwise, you can run it without the **--build** flag.
+
+Once you finished working with the container, run the following to stop the container.
 ```bash
 docker compose down
 ```
 
-### Authors
+### Contributors
 - Mr.Aung Khant Maw
 - Ms.Khaing Su Thway
