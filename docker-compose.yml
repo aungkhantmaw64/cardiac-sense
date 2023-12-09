@@ -1,10 +1,10 @@
 services:
-  jupyter:
+  cardiac-sense-ci:
     build:
-      context: ./
+      context: .
       dockerfile: ./Dockerfile
     image: cardiac-sense-ci:latest
-    container_name: jupyter
+    container_name: cardiac-sense
     restart: always
     tty: true
     ports:
