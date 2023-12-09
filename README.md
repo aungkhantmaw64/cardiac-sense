@@ -14,3 +14,7 @@ docker container run --rm -it -v $PWD:/app -p 8888:8888 cardiac-sense-ci:latest
 
 ### Access Jupyter Notebook
 Open the browser and enter http://127.0.0.1:8888/tree.
+
+### Authors
+- Mr.Aung Khant Maw
+- Ms.Khaing Su Thway
