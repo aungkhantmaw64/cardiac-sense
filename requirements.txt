@@ -1,6 +1,9 @@
 notebook
 numpy
+pandas
+opencv-python
 matplotlib
 tensorflow
 scipy
 wfdb
+dash

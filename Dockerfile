@@ -7,8 +7,8 @@ RUN apt-get update -y && apt-get install -y \
 
 COPY ./requirements.txt /app
 
+COPY ./requirements_dev.txt /app
+
 RUN pip install -r ./requirements.txt
 
-COPY ./docker-entrypoint.sh /app
-
-ENTRYPOINT [ "/app/docker-entrypoint.sh" ]
+RUN pip install -r ./requirements_dev.txt
