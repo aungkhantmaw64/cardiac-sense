@@ -1,4 +1,5 @@
 papers
 *.ipynb_checkpoints
-*mitdb
 .venv
+*mitdb
+
