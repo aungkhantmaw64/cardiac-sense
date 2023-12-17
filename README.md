@@ -39,3 +39,6 @@ docker compose run -p 8050:8050 --rm -it cardiac-sense-ci python3 src/app.py
 ### Contributors
 - Mr.Aung Khant Maw
 - Ms.Khaing Su Thway
+
+### Resources
+- Awesome-Dash - https://github.com/ucg8j/awesome-dash?tab=readme-ov-file
