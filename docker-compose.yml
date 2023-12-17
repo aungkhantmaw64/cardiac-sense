@@ -9,6 +9,7 @@ services:
     tty: true
     ports:
       - 8888:8888
+      - 8050:8050
     volumes:
       - ./:/app
     working_dir: /app
