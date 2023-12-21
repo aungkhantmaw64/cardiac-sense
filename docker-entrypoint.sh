@@ -2,4 +2,4 @@
 
 exec "$@"
 
-python3 src/app.py
+python3 app/main.py
