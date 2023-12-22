@@ -85,17 +85,13 @@ def make_signal_view() -> html.Div:
 
 @callback(
     Output("record-name-dropdown", "options"),
-    Input("database-dropdown", "value")
-)
-def update_record_name_dropdown(database_name)->list:
-    return database_explorer.get_available_records(database_name) 
-
-@callback(
     Output("record-name-dropdown", "value"),
     Input("database-dropdown", "value")
 )
-def update_record_name_dropdown_value(database_name)->str:
-    return database_explorer.get_available_records(database_name)[0]
+def update_record_name_dropdown(database_name):
+    return (database_explorer.get_available_records(database_name),
+           database_explorer.get_available_records(database_name)[0])
+
 
 @callback(
     Output("signal-figure","figure"),
