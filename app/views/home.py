@@ -1,10 +1,11 @@
 import dash_bootstrap_components as dbc
-from dash import html
-from dash import dcc
+from dash import html, dcc, Input, Output, callback
 from plotly import express
 
 from models import database
 
+
+database_explorer = database.Explorer()
 
 def make_header() -> dbc.NavbarSimple:
     return dbc.NavbarSimple(
@@ -33,12 +34,11 @@ def make_header() -> dbc.NavbarSimple:
 
 def make_signal_view() -> html.Div:
     signal_figure = express.line(
-        {"x": [1, 2, 3],
-         "y": [4, 4, 4]},
-        x="x",
-        y="y")
+        {"time_s":[],
+         "voltage_mV":[]},
+        x="time_s",
+        y="voltage_mV")
 
-    database_explorer = database.Explorer()
     available_datasets = database_explorer.get_available_datasets()
     available_records = database_explorer.get_available_records(
         available_datasets[0])
@@ -47,26 +47,29 @@ def make_signal_view() -> html.Div:
     signal_input = dbc.Card(
         [html.Label("Database"),
          dcc.Dropdown(available_datasets,
-                      available_datasets[0]),
+                      available_datasets[0],
+                      id="database-dropdown"),
          html.Br(),
          html.Label("Record Name"),
          dcc.Dropdown(available_records,
-                      available_records[0])],
+                      available_records[0],
+                      id="record-name-dropdown")],
         outline=True,
         style={"padding": 10,
                "flex": 1,
                "border-style":"solid",
                "border-color":"#B80000"
-               }
+               },
     )
     signal_output = dbc.Card(
-        [dcc.Graph(figure=signal_figure)],
+        [dcc.Graph(figure=signal_figure,
+                   id="signal-figure")],
         outline=True,
         style={"padding": 10,
                "flex": 4,
                "border-style":"solid",
                "border-color":"#B80000"
-               }
+               },
     )
 
     return dbc.Card([
@@ -79,3 +82,20 @@ def make_signal_view() -> html.Div:
                    "flexDirection": "row"
                    })]
      )
+
+@callback(
+    Output("signal-figure","figure"),
+    Input("database-dropdown", "value"),
+    Input("record-name-dropdown", "value")
+)
+def update_record_signal(database_name, record_name):
+    record_signal = database.PhysionetRecord(
+        database_explorer.get_record_path(database_name, record_name)
+    ) 
+    fig = express.line(
+        record_signal.translate(),
+        x="time_s",
+        y="voltage_mV",
+        title=f"Record: {record_name} Database: {database_name}")
+
+    return fig
