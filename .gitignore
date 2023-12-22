@@ -3,3 +3,4 @@ papers
 .venv
 *mitdb
 *__pycache__
+app/data/*
