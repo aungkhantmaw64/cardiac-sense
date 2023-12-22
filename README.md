@@ -11,11 +11,11 @@ docker build -t cardiac-sense-ci:latest --progress tty .
 
 * Linux
 ```bash
-docker container run --rm -it -v $PWD:/app -p 8888:8888 --name cardiac-sense cardiac-sense-ci:latest
+docker container run --rm -it -v $PWD:/app -p 8888:8888 -p 8050:8050 --name cardiac-sense cardiac-sense-ci:latest
 ```
 * Windows (Powershell)
 ```bash
-docker container run --rm -it -v ${pwd}:/app -p 8888:8888 --name cardiac-sense cardiac-sense-ci:latest
+docker container run --rm -it -v ${pwd}:/app -p 8888:8888 -p 8050:8050 --name cardiac-sense cardiac-sense-ci:latest
 ```
 
 ### Using Docker Compose
@@ -33,7 +33,11 @@ docker compose down
 * If you want to run the dashboard, use this command.
 It will be running on http://0.0.0.0:8050/. Open the browser to access it.
 ```bash
-docker compose run -p 8050:8050 --rm -it cardiac-sense-ci python3 src/app.py
+docker compose run -p 8050:8050 --rm -it cardiac-sense-ci python3 app/main.py
+```
+* Download the dataset manually (For Development)
+```bash
+docker compose run -p 8050:8050 --rm -it cardiac-sense-ci python3 tools/dataset_downloader.py
 ```
 
 ### Contributors
