@@ -53,22 +53,29 @@ def make_signal_view() -> html.Div:
          dcc.Dropdown(available_records,
                       available_records[0])],
         outline=True,
-        color="primary",
         style={"padding": 10,
-               "flex": 1}
+               "flex": 1,
+               "border-style":"solid",
+               "border-color":"#B80000"
+               }
     )
     signal_output = dbc.Card(
         [dcc.Graph(figure=signal_figure)],
         outline=True,
-        color="primary",
         style={"padding": 10,
-               "flex": 4}
+               "flex": 4,
+               "border-style":"solid",
+               "border-color":"#B80000"
+               }
     )
 
     return dbc.Card([
-        dbc.CardHeader("Single Record Analysis"),
+        dbc.CardHeader("Single Record Analysis",
+                       style={"background-color":"white"}),
         dbc.CardBody([
             signal_input,
             signal_output],
             style={"display": "flex",
-                   "flexDirection": "row"})])
+                   "flexDirection": "row"
+                   })]
+     )
