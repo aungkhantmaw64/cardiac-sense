@@ -7,7 +7,8 @@ from models import database
 
 database_explorer = database.Explorer()
 
-def make_header() -> dbc.NavbarSimple:
+
+def render_header() -> dbc.NavbarSimple:
     return dbc.NavbarSimple(
         children=[
             dbc.DropdownMenu(
@@ -31,18 +32,16 @@ def make_header() -> dbc.NavbarSimple:
     )
 
 
-
-def make_signal_view() -> html.Div:
+def render_signal_view() -> html.Div:
     signal_figure = express.line(
-        {"time_s":[],
-         "voltage_mV":[]},
+        {"time_s": [],
+         "voltage_mV": []},
         x="time_s",
         y="voltage_mV")
 
     available_datasets = database_explorer.get_available_datasets()
     available_records = database_explorer.get_available_records(
         available_datasets[0])
-
 
     signal_input = dbc.Card(
         [html.Label("Database"),
@@ -57,8 +56,8 @@ def make_signal_view() -> html.Div:
         outline=True,
         style={"padding": 10,
                "flex": 1,
-               "border-style":"solid",
-               "border-color":"#B80000"
+               "border-style": "solid",
+               "border-color": "#B80000"
                },
     )
     signal_output = dbc.Card(
@@ -67,21 +66,22 @@ def make_signal_view() -> html.Div:
         outline=True,
         style={"padding": 10,
                "flex": 4,
-               "border-style":"solid",
-               "border-color":"#B80000"
+               "border-style": "solid",
+               "border-color": "#B80000"
                },
     )
 
     return dbc.Card([
         dbc.CardHeader("Single Record Analysis",
-                       style={"background-color":"white"}),
+                       style={"background-color": "white"}),
         dbc.CardBody([
             signal_input,
             signal_output],
             style={"display": "flex",
                    "flexDirection": "row"
                    })]
-     )
+    )
+
 
 @callback(
     Output("record-name-dropdown", "options"),
@@ -90,18 +90,18 @@ def make_signal_view() -> html.Div:
 )
 def update_record_name_dropdown(database_name):
     return (database_explorer.get_available_records(database_name),
-           database_explorer.get_available_records(database_name)[0])
+            database_explorer.get_available_records(database_name)[0])
 
 
 @callback(
-    Output("signal-figure","figure"),
+    Output("signal-figure", "figure"),
     Input("database-dropdown", "value"),
     Input("record-name-dropdown", "value")
 )
 def update_record_signal(database_name, record_name):
     record_signal = database.PhysionetRecord(
         database_explorer.get_record_path(database_name, record_name)
-    ) 
+    )
     fig = express.line(
         record_signal.translate(),
         x="time_s",
