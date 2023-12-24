@@ -51,11 +51,18 @@ docker compose run -p 8050:8050 --rm -it cardiac-sense-ci python3 app/main.py
 docker compose run -p 8050:8050 --rm -it cardiac-sense-ci python3 tools/dataset_downloader.py
 ```
 
+### Formatting The Code
+
+```bash
+autopep8 --aggressive --aggressive --in-place app/*.py app/models/*.py app/views/*.py -v
+```
+
 ### Contributors
 
-- Mr.Aung Khant Maw
+* Mr.Aung Khant Maw
+
 * Ms.Khaing Su Thway
 
 ### Resources
 
-- Awesome-Dash - <https://github.com/ucg8j/awesome-dash?tab=readme-ov-file>
+* Awesome-Dash - <https://github.com/ucg8j/awesome-dash?tab=readme-ov-file>
