@@ -66,12 +66,12 @@ docker compose down
 
 ### Local Host Port Addresses
 **Linux**
-- [Dash App](https://0.0.0.0:8050)
-- [Jupyter Notebook](https://0.0.0.0:8888)
+- [Dash App](http://0.0.0.0:8050)
+- [Jupyter Notebook](http://0.0.0.0:8888)
 
 **Windows**
-- [Dash App](https://127.0.0.1:8050)
-- [Jupyter Notebook](https://127.0.0.1:8888)
+- [Dash App](http://127.0.0.1:8050/)
+- [Jupyter Notebook](http://127.0.0.1:8888/)
 
 # Contributors
 
