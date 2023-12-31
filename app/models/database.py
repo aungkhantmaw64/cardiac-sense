@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import numpy
 import os
-import wfdb 
+import wfdb
 
 DATA_PATH = os.path.join(
     os.getcwd(),
@@ -39,13 +39,14 @@ class Record(ABC):
 
 class PhysionetRecord(Record):
 
+    CHANNEL = 0
     def __init__(self, record: wfdb.Record) -> None:
         super().__init__()
         self.wfdb_record = record
 
     def to_dict(self) -> dict:
-        signal_y = self.wfdb_record.p_signal[:, 0]
-        time_x = numpy.arange(0, len(signal_y))/self.wfdb_record.fs
+        signal_y = self.wfdb_record.p_signal[:, self.CHANNEL]
+        time_x = numpy.arange(0, len(signal_y)) / self.wfdb_record.fs
         return {"time_s": time_x,
                 "voltage_mV": signal_y
                 }
@@ -53,4 +54,4 @@ class PhysionetRecord(Record):
     @staticmethod
     def from_path(path: str):
         record = wfdb.rdrecord(path)
-        return PhysionetRecord(record) 
+        return PhysionetRecord(record)

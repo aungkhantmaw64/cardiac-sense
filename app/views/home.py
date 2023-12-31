@@ -55,7 +55,8 @@ def render_signal_view() -> html.Div:
          html.Label("Record Name"),
          dcc.Dropdown(available_records,
                       available_records[DEFAULT_RECORD],
-                      id="record-name-dropdown")],
+                      id="record-name-dropdown")
+         ],
         outline=True,
         style={"padding": 10,
                "flex": 1,
@@ -65,7 +66,14 @@ def render_signal_view() -> html.Div:
     )
     outputs = dbc.Card(
         [dcc.Graph(figure=figure,
-                   id="signal-figure")],
+                   id="signal-figure"),
+         dcc.Slider(min=0,
+                    max=3000,
+                    step=10,
+                    value=0,
+                    id="signal-offset-slider",
+                    marks=None )
+        ],
         outline=True,
         style={"padding": 10,
                "flex": 4,
@@ -99,22 +107,25 @@ def update_record_name_dropdown(database_name):
 @callback(
     Output("signal-figure", "figure"),
     Input("database-dropdown", "value"),
-    Input("record-name-dropdown", "value")
+    Input("record-name-dropdown", "value"),
+    Input("signal-offset-slider", "value")
 )
-def update_signal_view(database_name, record_name):
+def update_signal_view(database_name, record_name, signal_offset):
     MAX_SAMPLE_POINTS = 3000
     ecg_record = database.PhysionetRecord.from_path(
         database_explorer.get_record_path(database_name, record_name)
     )
     signal_of_interest = {
-        "time_s": ecg_record.to_dict()["time_s"][:MAX_SAMPLE_POINTS],
-        "voltage_mV": ecg_record.to_dict()["voltage_mV"][:MAX_SAMPLE_POINTS]
+        "time_s": ecg_record.to_dict()["time_s"][signal_offset:
+                                                 signal_offset + MAX_SAMPLE_POINTS],
+        "voltage_mV": ecg_record.to_dict()["voltage_mV"][signal_offset:
+                                                         signal_offset + MAX_SAMPLE_POINTS]
     }
     fig = express.line(
         signal_of_interest,
         x="time_s",
         y="voltage_mV",
-        labels={"time_s":"Time (seconds)",
-                "voltage_mV":"Voltage (mV)"},
+        labels={"time_s": "Time (seconds)",
+                "voltage_mV": "Voltage (mV)"},
         title=f"Database: {database_name}, Record: {record_name} ")
     return fig
