@@ -98,7 +98,7 @@ def update_record_name_dropdown(database_name):
     Input("database-dropdown", "value"),
     Input("record-name-dropdown", "value")
 )
-def update_record_signal(database_name, record_name):
+def update_signal_view(database_name, record_name):
     record_signal = database.PhysionetRecord(
         database_explorer.get_record_path(database_name, record_name)
     )
