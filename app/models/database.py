@@ -1,44 +1,56 @@
-from abc import ABC, abstractmethod 
+from abc import ABC, abstractmethod
 import numpy
 import os
+import wfdb 
 
 DATA_PATH = os.path.join(
-        os.getcwd(),
-        "app/data"
-    )
+    os.getcwd(),
+    "app/data"
+)
+
 
 class Explorer:
-    
+
     def __init__(self) -> None:
         self.__available_datasets = os.listdir(DATA_PATH)
-    
-    def get_available_datasets(self)->list:
+
+    def get_available_datasets(self) -> list:
         return self.__available_datasets
-    
-    def get_available_records(self, dataset_name: str)->list:
+
+    def get_available_records(self, dataset_name: str) -> list:
         all_record_files = os.listdir(
             os.path.join(DATA_PATH,
                          dataset_name))
         available_records = set()
         for file in all_record_files:
-             available_records.add(file[:-4:])
+            available_records.add(file[:-4:])
         return sorted(list(available_records))
 
-    def get_record_path(self, dataset_name: str, record_name: str)->str:
+    def get_record_path(self, dataset_name: str, record_name: str) -> str:
         return os.path.join(DATA_PATH, dataset_name + "/" + record_name)
-    
+
+
 class Record(ABC):
-    
+
     @abstractmethod
-    def translate(self) -> dict:
-        pass 
+    def to_dict(self) -> dict:
+        pass
+
 
 class PhysionetRecord(Record):
-    
-    def __init__(self, path: str) -> None:
+
+    def __init__(self, record: wfdb.Record) -> None:
         super().__init__()
-    
-    def translate(self) -> dict:
-        return {"time_s": numpy.arange(0, 2 * numpy.pi, 0.1),
-                "voltage_mV": numpy.sin(numpy.arange(0, 2 *numpy.pi, 0.1))
+        self.wfdb_record = record
+
+    def to_dict(self) -> dict:
+        signal_y = self.wfdb_record.p_signal[:, 0]
+        time_x = numpy.arange(0, len(signal_y))/self.wfdb_record.fs
+        return {"time_s": time_x,
+                "voltage_mV": signal_y
                 }
+
+    @staticmethod
+    def from_path(path: str):
+        record = wfdb.rdrecord(path)
+        return PhysionetRecord(record) 

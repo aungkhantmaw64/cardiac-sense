@@ -5,8 +5,8 @@ from views import home
 
 
 def render() -> html.Div:
-    return html.Div(children=[home.make_header(),
-                              home.make_signal_view()],
+    return html.Div(children=[home.render_header(),
+                              home.render_signal_view()],
                     style={'display': 'flex',
                            'flexDirection': 'column'}
                     )
